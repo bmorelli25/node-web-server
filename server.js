@@ -1,21 +1,10 @@
 var express = require('express');
 var app = express();
 
+var middleware = require('./middleware');
 var PORT = 3000;
-var middleware = {
-  requireAuthentication: function (req, res, next) { //route level middleware
-    console.log('private route hit!');
-    next();
-  },
-  logger: function (req, res, next) { // app level middleware
-    var date = new Date().toString();
-    console.log('Request: ' + req.method + ' ' + req.originalUrl + 'on: ' + date);
-    next();
-  }
-};
 
-// app.use(middleware.requireAuthentication); app level middleware
-app.use(middleware.logger);
+app.use(middleware.logger); // app level middleware
 
 app.get('/about', middleware.requireAuthentication,function (req, res) {
   res.send('About Us');
